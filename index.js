@@ -1,6 +1,11 @@
 // Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
+// Include subclasses of Shapes: circle, square, triangle
+const Circle = require('./lib/circle.js');
+const Square = require('./lib/square.js');
+const Triangle = require('./lib/triangle.js');
+
 
 // Create an array of questions for user input
 const questions = [
@@ -38,30 +43,20 @@ function writeToFile(answers) {
 
     const {logoName, logoColor, shapeName, shapeColor} = answers;
 
-    let shape = "";
-    let shapeEnd = "";
-    // define shape
+    let svgContent = "";
+    // render a new svg file based on user input using OOP
     if (shapeName === 'circle') {
-        shape = "circle cx=\"150\" cy=\"100\" r=\"90\"";
-        shapeEnd = "circle";
+        const newCircle = new Circle(logoName, logoColor, shapeColor);
+        svgContent = newCircle.render();
     } else if (shapeName === 'triangle') {
-        shape = "polygon points=\"150,0 275,200 25,200\"";
-        shapeEnd = "polygon";
+        const newTriangle = new Triangle(logoName, logoColor, shapeColor);
+        svgContent = newTriangle.render();
     } else if (shapeName === 'square') {
-        shape = "rect x=\"50\" y=\"0\" width=\"200\" height=\"200\"";
-        shapeEnd = "rect";
+        const newSquare = new Square(logoName, logoColor, shapeColor);
+        svgContent = newSquare.render();
     } 
 
-    //create svg file
-    const svgContent = 
-    `<?xml version="1.0" standalone="no"?>
-    <svg width="300" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <${shape} fill="${shapeColor}"></${shapeEnd}>
-    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Verdana" font-size="55" fill="${logoColor}"> ${logoName} </text>
-    </svg>`;
-
-    console.log(svgContent);
-
+    // write new svg to file
     fs.writeFile('logo.svg', svgContent, (err) =>
         err ? console.error(err) : console.log('Generated logo.svg')
     );
