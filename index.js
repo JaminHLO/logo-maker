@@ -43,18 +43,25 @@ function writeToFile(answers) {
 
     const {logoName, logoColor, shapeName, shapeColor} = answers;
 
-    let svgContent = "";
-    // render a new svg file based on user input using OOP
+    let svgContent = `<?xml version="1.0" standalone="no"?>
+    <svg width="300" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg">`;
+    // add shape to svgContent based on user input using OOP
     if (shapeName === 'circle') {
-        const newCircle = new Circle(logoName, logoColor, shapeColor);
-        svgContent = newCircle.render();
+        const newCircle = new Circle(shapeColor);
+        svgContent = `${svgContent}\n${(newCircle.render())}`;
     } else if (shapeName === 'triangle') {
-        const newTriangle = new Triangle(logoName, logoColor, shapeColor);
-        svgContent = newTriangle.render();
+        const newTriangle = new Triangle(shapeColor);
+        svgContent = `${svgContent}\n${(newTriangle.render())}`;
     } else if (shapeName === 'square') {
-        const newSquare = new Square(logoName, logoColor, shapeColor);
-        svgContent = newSquare.render();
+        const newSquare = new Square(shapeColor);
+        svgContent = `${svgContent}\n${(newSquare.render())}`;
     } 
+
+    // add text to svgContent based on user input
+    svgContent = `${svgContent}
+    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Verdana" font-size="55" fill="${logoColor}"> ${logoName} </text>
+    </svg>`;
+
 
     // write new svg to file
     fs.writeFile('logo.svg', svgContent, (err) =>
