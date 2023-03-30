@@ -23,7 +23,7 @@ const questions = [
     {
         type: 'input',
         name: 'logoColor',
-        message: 'Enter the text color:',
+        message: 'Enter the text color (if hexadecimal add leading #):',
     },
     {
         type: 'list',
@@ -34,7 +34,7 @@ const questions = [
     {
         type: 'input',
         name: 'shapeColor',
-        message: 'Enter the shape color:',
+        message: 'Enter the shape color (if hexadecimal add leading #):',
     }
   ];
 
